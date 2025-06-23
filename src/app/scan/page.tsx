@@ -14,7 +14,7 @@ export default function ScanPage() {
   const html5QrCodeRef = useRef<any>(null);
 
   useEffect(() => {
-    if (session?.user?.role !== 'ADMIN') return;
+    if ((session?.user as any)?.role !== 'ADMIN') return;
     if (!scannerRef.current) return;
     import('html5-qrcode').then(({ Html5Qrcode }) => {
       html5QrCodeRef.current = new Html5Qrcode('qr-reader');
@@ -62,7 +62,7 @@ export default function ScanPage() {
     }
   };
 
-  if (!session || session.user.role !== 'ADMIN') return <div>Unauthorized</div>;
+  if (!session || (session.user as any).role !== 'ADMIN') return <div>Unauthorized</div>;
 
   return (
     <div className="max-w-xl mx-auto p-8">

@@ -11,14 +11,14 @@ export default function ProfilePage() {
 
   useEffect(() => {
     // Fetch profile jika sudah login
-    if (session && session.user && (session.user as any).id && session.user.role === 'APPLICANT') {
+    if (session && session.user && (session.user as any).id && (session.user as any).role === 'APPLICANT') {
       fetch('/api/profile').then(res => res.json()).then(data => {
         if (data.profile) setForm(data.profile);
       });
     }
   }, [session]);
 
-  if (!session || !session.user || session.user.role !== 'APPLICANT') return <div>Unauthorized</div>;
+  if (!session || !session.user || (session.user as any).role !== 'APPLICANT') return <div>Unauthorized</div>;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
