@@ -1,9 +1,9 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 
-export default function ScanPage() {
+function ScanPageContent() {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const companyId = searchParams.get('company_id');
@@ -194,5 +194,13 @@ export default function ScanPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ScanPage() {
+  return (
+    <Suspense fallback={<div className="max-w-2xl mx-auto p-8 text-center">Loading...</div>}>
+      <ScanPageContent />
+    </Suspense>
   );
 } 
