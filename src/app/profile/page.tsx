@@ -11,7 +11,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     // Fetch profile jika sudah login
-    if ((session?.user as any)?.id && session.user.role === 'APPLICANT') {
+    if (session && session.user && (session.user as any).id && session.user.role === 'APPLICANT') {
       fetch('/api/profile').then(res => res.json()).then(data => {
         if (data.profile) setForm(data.profile);
       });
