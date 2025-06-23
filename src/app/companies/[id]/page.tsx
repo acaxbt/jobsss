@@ -19,10 +19,10 @@ export default function CompanyDetailPage() {
   
   if (!company) return <div>Loading...</div>;
   
-  const isAdmin = session?.user?.role === 'ADMIN';
+  const isAdmin = (session?.user as any)?.role === 'ADMIN';
   const canAccessCompany = isAdmin && (
-    !session.user.company_id || 
-    session.user.company_id === company.id
+    !(session?.user as any)?.company_id || 
+    (session?.user as any)?.company_id === company.id
   );
   
   return (
