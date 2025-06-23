@@ -3,12 +3,13 @@ import { NextResponse } from 'next/server';
 
 export async function GET(
   req: Request,
-  { params }: { params: { userId: string } }
+  context: any
 ) {
+  const { userId } = context.params;
   const { data: profile } = await supabase
     .from('profiles')
     .select('*')
-    .eq('userId', params.userId)
+    .eq('userId', userId)
     .single();
   return NextResponse.json({ profile });
 } 
