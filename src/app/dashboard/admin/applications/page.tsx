@@ -8,9 +8,12 @@ export default function AdminApplicationsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!session) return;
+    if (!session || !session.user) return;
     let url = '/api/applications';
-    if (session.user.email !== 'superadmin@jobfair.com' && session.user.company_id) {
+    if (
+      session.user.email !== 'superadmin@jobfair.com' &&
+      session.user.company_id
+    ) {
       url += `?company_id=${session.user.company_id}`;
     }
     fetch(url).then(res => res.json()).then(data => {
