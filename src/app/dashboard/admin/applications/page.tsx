@@ -12,9 +12,9 @@ export default function AdminApplicationsPage() {
     let url = '/api/applications';
     if (
       session.user.email !== 'superadmin@jobfair.com' &&
-      session.user.company_id
+      (session.user as any).company_id
     ) {
-      url += `?company_id=${session.user.company_id}`;
+      url += `?company_id=${(session.user as any).company_id}`;
     }
     fetch(url).then(res => res.json()).then(data => {
       setApplications(data.applications || []);
