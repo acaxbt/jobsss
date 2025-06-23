@@ -28,19 +28,22 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession(authOptions);
+  const isApplicant = session?.user?.role === 'APPLICANT';
+  const isAdmin = session?.user?.role === 'ADMIN';
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <nav className="bg-gray-100 p-4 flex gap-4 items-center">
-          <Link href="/">Home</Link>
+          <Link href="/">Jobfair</Link>
           <Link href="/companies">Perusahaan</Link>
           {!session && <Link href="/register">Register</Link>}
           {!session && <Link href="/login">Login</Link>}
-          {session && <Link href="/dashboard">Dashboard</Link>}
-          {session?.user?.role === 'APPLICANT' && <Link href="/profile">Profil</Link>}
-          {session?.user?.role === 'ADMIN' && <Link href="/scan">Scan QR</Link>}
+          {isApplicant && <Link href="/dashboard">Dashboard</Link>}
+          {isApplicant && <Link href="/profile">Profil</Link>}
+          {isAdmin && <span className="text-gray-400">Admin Mode</span>}
+          {isAdmin && <Link href="/scan">Scan QR</Link>}
           {session && <LogoutButton />}
         </nav>
         <Providers>
