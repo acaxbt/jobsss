@@ -18,7 +18,7 @@ export default function ProfilePage() {
     }
   }, [session]);
 
-  if (!session || session.user.role !== 'APPLICANT') return <div>Unauthorized</div>;
+  if (!session || !session.user || session.user.role !== 'APPLICANT') return <div>Unauthorized</div>;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });

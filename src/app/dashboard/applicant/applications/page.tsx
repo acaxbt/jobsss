@@ -8,7 +8,7 @@ export default function ApplicantApplicationsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!session) return;
+    if (!session || !session.user) return;
     fetch(`/api/applications?user_id=${session.user.id}`)
       .then(res => res.json())
       .then(data => {
