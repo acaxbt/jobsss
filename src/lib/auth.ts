@@ -21,7 +21,7 @@ export const authOptions = {
         if (!user || error) return null;
         const isValid = await compare(credentials.password, user.password);
         if (!isValid) return null;
-        return { id: user.id, email: user.email, role: user.role };
+        return { id: user.id, email: user.email, role: user.role, company_id: user.company_id };
       },
     }),
   ],
@@ -31,6 +31,7 @@ export const authOptions = {
       if (user) {
         token.id = user.id;
         token.role = user.role;
+        token.company_id = user.company_id;
       }
       return token;
     },
@@ -38,6 +39,7 @@ export const authOptions = {
       if (token) {
         session.user.id = token.id;
         session.user.role = token.role;
+        session.user.company_id = token.company_id;
       }
       return session;
     },
