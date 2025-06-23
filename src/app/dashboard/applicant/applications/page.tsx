@@ -9,7 +9,7 @@ export default function ApplicantApplicationsPage() {
 
   useEffect(() => {
     if (!session || !session.user) return;
-    fetch(`/api/applications?user_id=${session.user.id}`)
+    fetch(`/api/applications?user_id=${(session.user as any).id}`)
       .then(res => res.json())
       .then(data => {
         setApplications(data.applications || []);

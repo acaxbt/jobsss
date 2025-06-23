@@ -11,7 +11,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     // Fetch profile jika sudah login
-    if (session?.user?.id && session.user.role === 'APPLICANT') {
+    if ((session?.user as any)?.id && session.user.role === 'APPLICANT') {
       fetch('/api/profile').then(res => res.json()).then(data => {
         if (data.profile) setForm(data.profile);
       });
@@ -42,8 +42,8 @@ export default function ProfilePage() {
     <div className="max-w-xl mx-auto p-8">
       <h1 className="text-2xl font-bold mb-4">Profil Pelamar</h1>
       <div className="mb-4 flex flex-col items-center">
-        <QRCode value={session.user.id} size={128} />
-        <div className="text-xs mt-2">QR Code ID: {session.user.id}</div>
+        <QRCode value={(session.user as any).id} size={128} />
+        <div className="text-xs mt-2">QR Code ID: {(session.user as any).id}</div>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input name="name" placeholder="Nama" value={form.name} onChange={handleChange} className="w-full border p-2 rounded" required />
