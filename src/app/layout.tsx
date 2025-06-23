@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { Providers } from './providers';
+import LogoutButton from '@/components/LogoutButton';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <nav className="bg-gray-100 p-4 flex gap-4">
+        <nav className="bg-gray-100 p-4 flex gap-4 items-center">
           <Link href="/">Home</Link>
           <Link href="/companies">Perusahaan</Link>
           {!session && <Link href="/register">Register</Link>}
@@ -40,6 +41,7 @@ export default async function RootLayout({
           {session && <Link href="/dashboard">Dashboard</Link>}
           {session?.user?.role === 'APPLICANT' && <Link href="/profile">Profil</Link>}
           {session?.user?.role === 'ADMIN' && <Link href="/scan">Scan QR</Link>}
+          {session && <LogoutButton />}
         </nav>
         <Providers>
           <main>{children}</main>
