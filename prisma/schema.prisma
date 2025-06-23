@@ -1,0 +1,73 @@
+// Tidak digunakan. Migrasi ke Supabase (PostgreSQL) dan @supabase/supabase-js.
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      Role
+  profile   Profile?
+  company   Company? @relation(fields: [companyId], references: [id])
+  companyId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  APPLICANT
+  ADMIN
+}
+
+model Profile {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @unique
+  name        String
+  education   String
+  experience  String
+  skills      String
+  cvUrl       String?
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  location    String
+  gallery     String[]
+  jobs        Job[]
+  users       User[]
+}
+
+model Job {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  company     Company  @relation(fields: [companyId], references: [id])
+  companyId   String
+  applications Application[]
+}
+
+model Application {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  job       Job      @relation(fields: [jobId], references: [id])
+  jobId     String
+  createdAt DateTime @default(now())
+}
