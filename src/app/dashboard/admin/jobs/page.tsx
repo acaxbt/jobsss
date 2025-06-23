@@ -50,7 +50,8 @@ export default function AdminJobsPage() {
 
   // Filter jobs jika bukan superadmin
   const isSuperAdmin = session?.user?.email === 'superadmin@jobfair.com';
-  const filteredJobs = isSuperAdmin ? jobs : jobs.filter(j => j.company_id === session?.user?.company_id);
+  const userCompanyId = (session?.user as any)?.company_id;
+  const filteredJobs = isSuperAdmin ? jobs : jobs.filter(j => j.company_id === userCompanyId);
 
   return (
     <div className="max-w-2xl mx-auto p-8">

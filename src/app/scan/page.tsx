@@ -41,8 +41,8 @@ export default function ScanPage() {
       // Fetch jobs milik perusahaan admin
       if (session?.user?.email === 'superadmin@jobfair.com') {
         fetch('/api/jobs').then(res => res.json()).then(data => setJobs(data.jobs));
-      } else if (session?.user?.company_id) {
-        fetch(`/api/jobs?company_id=${session.user.company_id}`).then(res => res.json()).then(data => setJobs(data.jobs));
+      } else if ((session?.user as any)?.company_id) {
+        fetch(`/api/jobs?company_id=${(session?.user as any).company_id}`).then(res => res.json()).then(data => setJobs(data.jobs));
       }
     }
   }, [userId, session]);
